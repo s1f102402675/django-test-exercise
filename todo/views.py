@@ -42,7 +42,7 @@ def delete(request, task_id):
     except Task.DoesNotExist:
         raise Http404("Task does not exist")
     task.delete()
-    return redirect(index
+    return redirect(index)
 
                     
 def close(request, task_id):
