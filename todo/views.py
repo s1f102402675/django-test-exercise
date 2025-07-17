@@ -11,6 +11,15 @@ def index(request):
         task = Task(title=request.POST['title'],
                     due_at=make_aware(parse_datetime(request.POST['due_at'])),
                     body=request.POST['body'])
+        pdt = parse_datetime(request.POST['due_at'])
+        if pdt is not None:
+            task = Task(title=request.POST['title'],
+                        body=request.POST['body'],
+                        due_at=make_aware(pdt))
+        else:
+            task = Task(title=request.POST['title'],
+                        body=request.POST['body']
+                        due_at=None)
         task.save()
 
     if request.GET.get('order') == 'due':
@@ -54,7 +63,6 @@ def update(request, task_id):
     return render(request, 'todo/edit.html', context)
 
 
-
 def delete(request, task_id):
     try:
         task = Task.objects.get(pk=task_id)
@@ -63,12 +71,22 @@ def delete(request, task_id):
     task.delete()
     return redirect(index)
 
-                    
+
 def close(request, task_id):
     try:
         task = Task.objects.get(pk=task_id)
     except Task.DoesNotExist:
         raise Http404("Task does not exist")
     task.completed = True
+    task.save()
+    return redirect(index)
+
+
+def open(request, task_id):
+    try:
+        task = Task.objects.get(pk=task_id)
+    except Task.DoesNotExist:
+        raise Http404("Task does not exist")
+    task.completed = False
     task.save()
     return redirect(index)

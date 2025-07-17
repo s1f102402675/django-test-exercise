@@ -27,7 +27,12 @@
       <a href="{% url 'index' %}">Top</a>
       | <a href="{% url 'update' task.id %}">Edit</a>
       | <a href="{% url 'delete' task.id %}">Delete</a>
-      | <a href="{% url 'close' task.id %}">Close</a>
+      | <!--左側半角空白有-->
+      {% if task.completed %}
+      <a href="{% url 'open' task.id %}">Open</a>
+      {% else %}
+      <a href="{% url 'close' task.id %}">Close</a>
+      {% endif %}
     </div>
   </body>
 

@@ -113,3 +113,15 @@ class TodoViewTestCase(TestCase):
         response = client.get('/1/')
 
         self.assertEqual(response.status_code, 404)
+
+    def test_update_get_success(self):
+        """
+        編集フォームのGETリクエストが成功し、task情報が出力されるか
+        """
+        task = Task.objects.create(title='old title', due_at=timezone.make_aware(datetime(2024, 7, 1)))
+        client = Client()
+        response = client.get('/{}/update'.format(task.pk))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.templates[0].name, 'todo/edit.html')
+        self.assertEqual(response.context['task'], task)
