@@ -18,7 +18,7 @@ def index(request):
                         due_at=make_aware(pdt))
         else:
             task = Task(title=request.POST['title'],
-                        body=request.POST['body']
+                        body=request.POST['body'],
                         due_at=None)
         task.save()
 
