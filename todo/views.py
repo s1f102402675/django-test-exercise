@@ -57,7 +57,6 @@ def update(request, task_id):
     return render(request, 'todo/edit.html', context)
 
 
-
 def delete(request, task_id):
     try:
         task = Task.objects.get(pk=task_id)
@@ -66,7 +65,7 @@ def delete(request, task_id):
     task.delete()
     return redirect(index)
 
-                    
+     
 def close(request, task_id):
     try:
         task = Task.objects.get(pk=task_id)
